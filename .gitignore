@@ -1,0 +1,7 @@
+## FOLDERS TO IGNORE
+.venv/
+.idea/
+__pycache__/
+
+## FILES TO IGNORE
+*.pyc
