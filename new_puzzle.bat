@@ -1,4 +1,5 @@
 @echo off
+:: inspired by https://github.com/AntonMulder/aoc-2023
 SET day=%1
 ECHO The day is set to: %day%
 
@@ -49,6 +50,6 @@ IF NOT EXIST %new_dir% (
 			curl -s "https://adventofcode.com/2023/day/%day%/input" -H "Cookie: session=%token%" -o "%new_dir%\data\puzzle_input.txt"
 		)
 	)
-) ELSE (ECHO Folders have already been created)
+) ELSE (ECHO Folder tree for %new_dir% has already been created.)
 
 
