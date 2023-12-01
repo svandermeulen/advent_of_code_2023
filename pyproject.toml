@@ -6,6 +6,4 @@ authors = ["Meulen <stef.van.der.meulen@ordina.nl>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-
-[tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
