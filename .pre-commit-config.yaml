@@ -8,7 +8,7 @@ repos:
         pass_filenames: false
       - id: mypy
         name: MyPy
-        entry: bash -c 'poetry run mypy --strict -p src -p tests'
+        entry: bash -c 'poetry run mypy --strict -m src -m tests'
         language: system
         pass_filenames: false
   - repo: https://github.com/ambv/black
