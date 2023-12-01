@@ -1,7 +1,8 @@
 import re
 from typing import Iterable
 
-from utils.io import readlines
+from src.utils.io import read_lines
+from src.utils.paths import Paths
 
 WORD_2_NUMBER = {
     "one": 1,
@@ -13,7 +14,7 @@ WORD_2_NUMBER = {
     "seven": 7,
     "eight": 8,
     "nine": 9,
-    "ten": 10
+    "ten": 10,
 }
 
 
@@ -29,9 +30,7 @@ def find_first_and_last_digit(txt: str) -> int:
     digits_spelled = [key for key in WORD_2_NUMBER.keys() if key in txt.lower()]
     digits = [str(val) for val in WORD_2_NUMBER.values() if str(val) in txt.lower()]
 
-    digit_positions = {
-        d: [match.span()[0] for match in re.finditer(d, txt)] for d in digits + digits_spelled
-    }
+    digit_positions = {d: [match.span()[0] for match in re.finditer(d, txt)] for d in digits + digits_spelled}
     first_pos = min([val for d in digit_positions.values() for val in d])
     last_pos = max([val for d in digit_positions.values() for val in d])
     digits_desired = [key for key, val in digit_positions.items() if first_pos in val]
@@ -42,9 +41,9 @@ def find_first_and_last_digit(txt: str) -> int:
     return int("".join(numeric_chars))
 
 
-def run(puzzle_input: Iterable[str]):
+def run(puzzle_input: Iterable[str]) -> int:
     return sum(find_first_and_last_digit(txt=item) for item in puzzle_input)
 
 
 if __name__ == "__main__":
-    print(run(puzzle_input=readlines(path="data/puzzle_input.txt")))
+    print(run(puzzle_input=read_lines(path=Paths().path_data / "day_1" / "puzzle_input.txt")))

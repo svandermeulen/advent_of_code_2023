@@ -1,0 +1,25 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Ruff check
+        entry: bash -c 'poetry run ruff check .'
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: MyPy
+        entry: bash -c 'poetry run mypy --strict --namespace-packages -p src'
+        language: system
+        pass_filenames: false
+  - repo: https://github.com/ambv/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+        language: python
+        language_version: python3.11
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: [ "--profile", "black" ]
