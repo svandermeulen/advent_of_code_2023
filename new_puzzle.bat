@@ -37,6 +37,7 @@ IF NOT EXIST %new_tests_dir% (
 	FOR %%A IN (1, 1, 2) DO (
 		(
 		  ECHO import pytest
+		  from typing_extensions import Iterable
 		  ECHO[
 		  ECHO from src.day_%day%.part_%%A import run
 		  ECHO from src.utils.io import read_lines
