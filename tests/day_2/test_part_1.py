@@ -7,7 +7,7 @@ from src.utils.paths import Paths
 
 
 @pytest.mark.parametrize(
-    "test_input, expected", [(read_lines(path=Paths().path_data_tests / "day_2" / "example_1.txt"), None)]
+    "test_input, expected", [(read_lines(path=Paths().path_data_tests / "day_2" / "example_1.txt"), 8)]
 )
 def test_run(test_input: Iterable[str], expected: int) -> None:
     assert run(puzzle_input=test_input) == expected
