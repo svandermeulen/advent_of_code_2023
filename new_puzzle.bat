@@ -27,9 +27,9 @@ IF NOT EXIST %new_src_dir% (
       ECHO if __name__ == "__main__":
       ECHO     print(run(puzzle_input=read_lines(path=Paths(^).path_data / "day_%day%" / "puzzle_input.txt"^)^)^)
     ) >"%new_src_dir%\part_1.py"
+	TYPE "%new_src_dir%\part_1.py" >> "%new_src_dir%\part_2.py"
 ) ELSE (ECHO Source folder tree for %new_src_dir% has already been created.)
-::<NUL >"%new_src_dir%\part_2.py" (SET /p tv=)
-TYPE "%new_src_dir%\part_1.py" >> "%new_src_dir%\part_2.py"
+
 
 ::Add new tests
 IF NOT EXIST %new_tests_dir% (
@@ -37,7 +37,7 @@ IF NOT EXIST %new_tests_dir% (
 	FOR %%A IN (1, 1, 2) DO (
 		(
 		  ECHO import pytest
-		  from typing_extensions import Iterable
+		  ECHO from typing_extensions import Iterable
 		  ECHO[
 		  ECHO from src.day_%day%.part_%%A import run
 		  ECHO from src.utils.io import read_lines
@@ -53,15 +53,6 @@ IF NOT EXIST %new_tests_dir% (
 	)
 ) ELSE (ECHO Tests folder tree for %new_tests_dir% has already been created.)
 
-::Add puzzle input data
-IF NOT EXIST %new_data_dir% (
-	MKDIR "%new_data_dir%"
-	FOR /f "delims=" %%i IN ('curl -s --head -w %%{http_code} https://adventofcode.com/2023/day/%day%/input -o NUL') DO SET status_code=%%i
-	IF %status_code% == 400 (
-		curl -s "https://adventofcode.com/2023/day/%day%/input" -H "Cookie: session=%token%" -o "%new_data_dir%\puzzle_input.txt"
-	) ELSE (ECHO Status code is: %status_code%.)
-) ELSE (ECHO Data folder tree for %new_data_dir% has already been created.)
-
 ::Add puzzle example data
 IF NOT EXIST %new_data_tests_dir% (
 	MKDIR "%new_data_tests_dir%"
@@ -69,3 +60,19 @@ IF NOT EXIST %new_data_tests_dir% (
 		<NUL >"%new_data_tests_dir%\example_%%A.txt" (SET /p tv=)
 	)
 ) ELSE (ECHO Test data folder tree for %new_data_dir% has already been created.)
+
+::Add puzzle input data
+IF NOT EXIST %new_data_dir% GOTO get_puzzle_input ELSE GOTO
+IF EXIST %new_data_dir% GOTO puzzle_input_already_obtained
+
+:get_puzzle_input
+MKDIR "%new_data_dir%"
+FOR /f "delims=" %%i IN ('curl -s --head -w %%{http_code} https://adventofcode.com/2023/day/%day%/input -o NUL') DO SET status_code=%%i
+ECHO %status_code%
+IF %status_code% == 400 (
+	curl -s "https://adventofcode.com/2023/day/%day%/input" -H "Cookie: session=%token%" -o "%new_data_dir%\puzzle_input.txt"
+) ELSE (ECHO Status code is: %status_code%.)
+
+:puzzle_input_already_obtained
+ECHO Puzzle input already obtained
+
