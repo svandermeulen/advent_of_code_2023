@@ -62,16 +62,17 @@ IF NOT EXIST %new_data_tests_dir% (
 ) ELSE (ECHO Test data folder tree for %new_data_dir% has already been created.)
 
 ::Add puzzle input data
-IF NOT EXIST %new_data_dir% GOTO get_puzzle_input ELSE GOTO
+IF NOT EXIST %new_data_dir% GOTO get_puzzle_input
 IF EXIST %new_data_dir% GOTO puzzle_input_already_obtained
 
 :get_puzzle_input
 MKDIR "%new_data_dir%"
 FOR /f "delims=" %%i IN ('curl -s --head -w %%{http_code} https://adventofcode.com/2023/day/%day%/input -o NUL') DO SET status_code=%%i
-ECHO %status_code%
 IF %status_code% == 400 (
 	curl -s "https://adventofcode.com/2023/day/%day%/input" -H "Cookie: session=%token%" -o "%new_data_dir%\puzzle_input.txt"
 ) ELSE (ECHO Status code is: %status_code%.)
+
+exit /b 0
 
 :puzzle_input_already_obtained
 ECHO Puzzle input already obtained
